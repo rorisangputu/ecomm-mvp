@@ -12,6 +12,11 @@ import {
 import db from "@/db/db";
 import { CheckCircle2, MoreVertical, XCircleIcon } from "lucide-react";
 import { formatCurrency, formatNumber } from "@/lib/formatter";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function AdminProductPage() {
   return (
@@ -80,8 +85,13 @@ async function ProductsTable() {
               </TableCell>
               <TableCell>{formatNumber(product._count.orders / 100)}</TableCell>
               <TableCell>
-                <MoreVertical />
-                <span className="sr-only">Actions</span>
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                    <MoreVertical />
+                    <span className="sr-only">Actions</span>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent></DropdownMenuContent>
+                </DropdownMenu>
               </TableCell>
             </TableRow>
           ))}
