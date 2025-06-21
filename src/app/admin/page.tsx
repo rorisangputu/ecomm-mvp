@@ -14,16 +14,16 @@ async function getSalesData() {
     _sum: { pricePaidInCents: true },
     _count: true,
   });
-  await wait(2000);
+  //await wait(2000);
   return {
     amount: (sales._sum.pricePaidInCents || 0) / 100,
     numOfSales: sales._count,
   };
 }
 
-function wait(dur: number) {
-  return new Promise((resolve) => setTimeout(resolve, dur));
-}
+// function wait(dur: number) {
+//   return new Promise((resolve) => setTimeout(resolve, dur));
+// }
 
 async function getUserData() {
   //Parallel asynchronous operations
