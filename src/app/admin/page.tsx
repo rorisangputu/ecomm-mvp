@@ -21,6 +21,7 @@ async function getSalesData() {
 }
 
 async function getUserData() {
+  //Parallel asynchronous operations
   const [customerCount, orderData] = await Promise.all([
     db.user.count(),
     db.order.aggregate({
@@ -38,8 +39,12 @@ async function getUserData() {
 }
 
 export default async function AdminDashboard() {
-  const salesData = await getSalesData();
-  const customerData = await getUserData();
+  //Parallel asynchronous operations
+  const [salesData, customerData] = await Promise.all([
+    getSalesData(),
+    getUserData(),
+  ]);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       <DashboardCard
