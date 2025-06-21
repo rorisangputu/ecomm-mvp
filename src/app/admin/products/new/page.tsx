@@ -1,3 +1,11 @@
+import PageHeader from "../../_components/PageHeader";
+import { ProductForm } from "../_components/ProductForm";
+
 export default async function CreateProductpage() {
-  return <h1>Create Product Page</h1>;
+  return (
+    <>
+      <PageHeader>Create Products</PageHeader>
+      <ProductForm />
+    </>
+  );
 }
