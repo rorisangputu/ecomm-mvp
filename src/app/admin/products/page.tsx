@@ -17,6 +17,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 
 export default function AdminProductPage() {
   return (
@@ -90,7 +91,22 @@ async function ProductsTable() {
                     <MoreVertical />
                     <span className="sr-only">Actions</span>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent></DropdownMenuContent>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem asChild>
+                      <a
+                        className="text-sm px-1"
+                        download
+                        href={`/admin/products/${product.id}/download`}
+                      >
+                        Donwload
+                      </a>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href={`/admin/products/${product.id}/edit`}>
+                        Edit
+                      </Link>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
                 </DropdownMenu>
               </TableCell>
             </TableRow>
