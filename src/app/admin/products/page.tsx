@@ -15,9 +15,14 @@ import { formatCurrency, formatNumber } from "@/lib/formatter";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import {
+  ActiveToggleDropdownItem,
+  DeleteDropdownItem,
+} from "./_components/ProductsActions";
 
 export default function AdminProductPage() {
   return (
@@ -106,6 +111,15 @@ async function ProductsTable() {
                         Edit
                       </Link>
                     </DropdownMenuItem>
+                    <ActiveToggleDropdownItem
+                      id={product.id}
+                      isAvailableForPurchase={product.isAvailableForPurchase}
+                    />
+                    <DropdownMenuSeparator />
+                    <DeleteDropdownItem
+                      id={product.id}
+                      disabled={product._count.orders > 0}
+                    />
                   </DropdownMenuContent>
                 </DropdownMenu>
               </TableCell>
