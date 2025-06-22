@@ -9,6 +9,7 @@ import { formatCurrency } from "@/lib/formatter";
 import { useActionState, useState } from "react";
 import { AddProduct } from "../../_actions/actions";
 import { useFormStatus } from "react-dom";
+import { Product } from "@/generated/prisma";
 
 // Define the type for the flattened errors
 type FormErrors = {
@@ -28,15 +29,23 @@ const initialState: FormErrors = {
   fieldErrors: {},
 };
 
-export function ProductForm() {
+export function ProductForm({ product }: { product?: Product | null }) {
   const [error, action] = useActionState(AddProduct, initialState); // Use the correct initialState
-  const [priceInCents, setPriceInCents] = useState<number | undefined>();
+  const [priceInCents, setPriceInCents] = useState<number | undefined>(
+    product?.priceInCents
+  );
 
   return (
     <form action={action} className="space-y-8">
       <div className="space-y-2">
         <Label htmlFor="name">Name</Label>
-        <Input type="text" id="name" name="name" required />
+        <Input
+          type="text"
+          id="name"
+          name="name"
+          required
+          defaultValue={product?.name || ""}
+        />
         {error.fieldErrors.name && (
           <div className="text-destructive">
             {error.fieldErrors.name.join(", ")}
@@ -64,7 +73,12 @@ export function ProductForm() {
       </div>
       <div className="space-y-2">
         <Label htmlFor="description">Description</Label>
-        <Textarea id="description" name="description" required />
+        <Textarea
+          id="description"
+          name="description"
+          required
+          defaultValue={product?.description || ""}
+        />
         {error.fieldErrors.description && (
           <div className="text-destructive">
             {error.fieldErrors.description.join(", ")}
@@ -73,7 +87,14 @@ export function ProductForm() {
       </div>
       <div className="space-y-2">
         <Label htmlFor="file">File</Label>
-        <Input type="file" id="file" name="file" required />
+        <Input type="file" id="file" name="file" required={product == null} />
+        {product != null && (
+          <div>
+            <p className="text-sm text-muted-foreground">
+              Path: {product.filePath}
+            </p>
+          </div>
+        )}
         {error.fieldErrors.file && (
           <div className="text-destructive">
             {error.fieldErrors.file.join(", ")}
@@ -82,7 +103,14 @@ export function ProductForm() {
       </div>
       <div className="space-y-2">
         <Label htmlFor="image">Image</Label>
-        <Input type="file" id="image" name="image" required />
+        <Input type="file" id="image" name="image" required={product == null} />
+        {product != null && (
+          <div>
+            <p className="text-sm text-muted-foreground">
+              Path: {product.imagePath}
+            </p>
+          </div>
+        )}
         {error.fieldErrors.image && (
           <div className="text-destructive">
             {error.fieldErrors.image.join(", ")}
