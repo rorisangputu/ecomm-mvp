@@ -1,3 +1,4 @@
+"use client";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { useTransition } from "react";
 import {
@@ -37,6 +38,7 @@ export function DeleteDropdownItem({
   const [isPending, startTransition] = useTransition();
   return (
     <DropdownMenuItem
+      variant="destructive"
       disabled={disabled || isPending}
       onClick={() => {
         startTransition(async () => {
