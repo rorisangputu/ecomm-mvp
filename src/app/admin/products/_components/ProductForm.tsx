@@ -7,9 +7,10 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { formatCurrency } from "@/lib/formatter";
 import { useActionState, useState } from "react";
-import { AddProduct } from "../../_actions/actions";
+import { AddProduct, UpdateProduct } from "../../_actions/product.actions";
 import { useFormStatus } from "react-dom";
 import { Product } from "@/generated/prisma";
+import Image from "next/image";
 
 // Define the type for the flattened errors
 type FormErrors = {
@@ -30,7 +31,10 @@ const initialState: FormErrors = {
 };
 
 export function ProductForm({ product }: { product?: Product | null }) {
-  const [error, action] = useActionState(AddProduct, initialState); // Use the correct initialState
+  const [error, action] = useActionState(
+    product == null ? AddProduct : UpdateProduct.bind(null, product.id),
+    initialState
+  ); // Use the correct initialState
   const [priceInCents, setPriceInCents] = useState<number | undefined>(
     product?.priceInCents
   );
@@ -105,11 +109,12 @@ export function ProductForm({ product }: { product?: Product | null }) {
         <Label htmlFor="image">Image</Label>
         <Input type="file" id="image" name="image" required={product == null} />
         {product != null && (
-          <div>
-            <p className="text-sm text-muted-foreground">
-              Path: {product.imagePath}
-            </p>
-          </div>
+          <Image
+            src={product.imagePath}
+            height="100"
+            width="100"
+            alt="Product Image"
+          />
         )}
         {error.fieldErrors.image && (
           <div className="text-destructive">
