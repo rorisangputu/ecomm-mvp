@@ -1,9 +1,10 @@
-import { ProductCard } from "@/components/ProductCard";
+import { ProductCard, ProductCardSkeleton } from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
 import db from "@/db/db";
 import { Product } from "@/generated/prisma";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { Suspense } from "react";
 
 async function getPopularProducts() {
   return await db.product.findMany({
@@ -12,11 +13,17 @@ async function getPopularProducts() {
   });
 }
 async function getLatestProducts() {
+  //   await wait(2000);
   return await db.product.findMany({
     where: { isAvailableForPurchase: true },
     orderBy: { createdAt: "desc" },
   });
 }
+
+//Simulate late retrieval
+// function wait(duration: number) {
+//   return new Promise((resolve) => setTimeout(resolve, duration));
+// }
 
 export default function HomePage() {
   return (
@@ -33,7 +40,7 @@ type ProductGridSectionProps = {
   title: string;
   productsFetcher: () => Promise<Product[]>;
 };
-async function ProductGridSection({
+function ProductGridSection({
   productsFetcher,
   title,
 }: ProductGridSectionProps) {
@@ -49,10 +56,28 @@ async function ProductGridSection({
         </Button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {(await productsFetcher()).map((product) => (
-          <ProductCard key={product.id} {...product} />
-        ))}
+        <Suspense
+          fallback={
+            <>
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+              <ProductCardSkeleton />
+            </>
+          }
+        >
+          <ProductSuspense productsFetcher={productsFetcher} />
+        </Suspense>
       </div>
     </div>
   );
+}
+
+async function ProductSuspense({
+  productsFetcher,
+}: {
+  productsFetcher: () => Promise<Product[]>;
+}) {
+  return (await productsFetcher()).map((product) => (
+    <ProductCard key={product.id} {...product} />
+  ));
 }
