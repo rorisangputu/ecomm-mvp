@@ -2,23 +2,33 @@ import { ProductCard, ProductCardSkeleton } from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
 import db from "@/db/db";
 import { Product } from "@/generated/prisma";
+import { cache } from "@/lib/cache";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 
-async function getPopularProducts() {
-  return await db.product.findMany({
-    where: { isAvailableForPurchase: true },
-    orderBy: { orders: { _count: "desc" } },
-  });
-}
-async function getLatestProducts() {
-  //   await wait(2000);
-  return await db.product.findMany({
-    where: { isAvailableForPurchase: true },
-    orderBy: { createdAt: "desc" },
-  });
-}
+const getPopularProducts = cache(
+  () => {
+    return db.product.findMany({
+      where: { isAvailableForPurchase: true },
+      orderBy: { orders: { _count: "desc" } },
+    });
+  },
+  ["/", "getPopularProducts"],
+  { revalidate: 60 * 60 * 24 }
+);
+
+const getLatestProducts = cache(
+  () => {
+    //   await wait(2000);
+    return db.product.findMany({
+      where: { isAvailableForPurchase: true },
+      orderBy: { createdAt: "desc" },
+    });
+  },
+  ["/", "getLatestProducts"],
+  { revalidate: 60 * 60 * 24 }
+);
 
 //Simulate late retrieval
 // function wait(duration: number) {
