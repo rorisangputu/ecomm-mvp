@@ -1,3 +1,57 @@
-export function OrderInformation() {
-  return <h1>Hi</h1>;
+import { formatCurrency } from "@/lib/formatter";
+import { Column, Img, Row, Section, Text } from "@react-email/components";
+
+type OrderInformationProps = {
+  order: {
+    id: string;
+    createdAt: Date;
+    pricePaidInCents: number;
+  };
+  product: {
+    imagePath: string;
+  };
+  downloadVerifactionId: string;
+};
+
+const dateFormatter = new Intl.DateTimeFormat("en", { dateStyle: "medium" });
+export function OrderInformation({
+  order,
+  product,
+  downloadVerifactionId,
+}: OrderInformationProps) {
+  return (
+    <>
+      <Section>
+        <Row>
+          <Column>
+            <Text className="mb-0 text-gray-500 whitespace-nowrap text-nowrap mr-4">
+              Order ID
+            </Text>
+            <Text className="mt-0 mr-4">{order.id}</Text>
+          </Column>
+          <Column>
+            <Text className="mb-0 text-gray-500 whitespace-nowrap text-nowrap mr-4">
+              Purchased On
+            </Text>
+            <Text className="mt-0 mr-4">
+              {dateFormatter.format(order.createdAt)}
+            </Text>
+          </Column>
+          <Column>
+            <Text className="mb-0 text-gray-500 whitespace-nowrap text-nowrap mr-4">
+              Price Paid
+            </Text>
+            <Text className="mt-0 mr-4">
+              {formatCurrency(order.pricePaidInCents / 100)}
+            </Text>
+          </Column>
+        </Row>
+      </Section>
+      <Section className="border border-solid border-gray-500 rounded-lg p-4 md:p-6 my-4">
+        <Img
+          src={`${process.env.NEXT_PUBLIC_SERVER_URL}${product.imagePath}`}
+        />
+      </Section>
+    </>
+  );
 }
