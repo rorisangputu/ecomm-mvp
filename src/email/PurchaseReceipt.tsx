@@ -14,7 +14,12 @@ type PurchaseReceiptEmailProps = {
     name: string;
   };
 };
-export default function PurchaseReceipt({
+
+PurchaseReceiptEmail.PreviewProps = {
+  product: { name: "Product 1" },
+} satisfies PurchaseReceiptEmailProps;
+
+export default function PurchaseReceiptEmail({
   product,
 }: PurchaseReceiptEmailProps) {
   return (
