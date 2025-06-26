@@ -23,7 +23,7 @@ type OrderInformationProps = {
 };
 
 const url = process.env.NEXT_PUBLIC_SERVER_URL;
-console.log(url);
+
 const dateFormatter = new Intl.DateTimeFormat("en", { dateStyle: "medium" });
 export function OrderInformation({
   order,
