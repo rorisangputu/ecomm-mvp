@@ -1,5 +1,12 @@
 import { formatCurrency } from "@/lib/formatter";
-import { Button, Column, Row, Section, Text } from "@react-email/components";
+import {
+  Button,
+  Column,
+  Img,
+  Row,
+  Section,
+  Text,
+} from "@react-email/components";
 
 type OrderInformationProps = {
   order: {
@@ -52,11 +59,11 @@ export function OrderInformation({
         </Row>
       </Section>
       <Section className="border border-solid border-gray-500 rounded-lg p-4 md:p-6 my-4">
-        {/* <Img
+        <Img
           width="100%"
           alt={product.name}
           src={`${url}${product.imagePath}`}
-        /> */}
+        />
         <Row className="mt-3">
           <Column className="align-centre">
             <Text className="text-lg font-bold m-0 mr-4">{product.name}</Text>
