@@ -47,8 +47,9 @@ export default function CheckoutForm({
             <Image
               src={product.imagePath}
               fill
+              className="object-contain"
               alt={product.name}
-              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 400px" // Adjust based on your needs
             />
           </div>
           <div>
