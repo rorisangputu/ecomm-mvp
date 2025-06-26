@@ -89,7 +89,7 @@ async function ProductsTable() {
               <TableCell>
                 {formatCurrency(product.priceInCents / 100)}
               </TableCell>
-              <TableCell>{formatNumber(product._count.orders / 100)}</TableCell>
+              <TableCell>{formatNumber(product._count.orders)}</TableCell>
               <TableCell>
                 <DropdownMenu>
                   <DropdownMenuTrigger>
