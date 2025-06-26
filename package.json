@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "email": "cp .env ./node_modules/react-email  && email dev --dir src/email --port 3001"
+    "email": "cp .env ./node_modules/react-email/dist/preview && email dev --dir src/email --port 3000"
   },
   "dependencies": {
     "@prisma/client": "^6.10.1",
@@ -19,6 +19,7 @@
     "@stripe/stripe-js": "^7.4.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "dotenv": "^16.5.0",
     "lucide-react": "^0.518.0",
     "next": "15.3.4",
     "react": "^19.0.0",
