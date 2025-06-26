@@ -1,5 +1,5 @@
 import { formatCurrency } from "@/lib/formatter";
-import { Column, Img, Row, Section, Text } from "@react-email/components";
+import { Button, Column, Row, Section, Text } from "@react-email/components";
 
 type OrderInformationProps = {
   order: {
@@ -9,10 +9,14 @@ type OrderInformationProps = {
   };
   product: {
     imagePath: string;
+    name: string;
+    description: string;
   };
   downloadVerifactionId: string;
 };
 
+const url = process.env.NEXT_PUBLIC_SERVER_URL;
+console.log(url);
 const dateFormatter = new Intl.DateTimeFormat("en", { dateStyle: "medium" });
 export function OrderInformation({
   order,
@@ -48,9 +52,24 @@ export function OrderInformation({
         </Row>
       </Section>
       <Section className="border border-solid border-gray-500 rounded-lg p-4 md:p-6 my-4">
-        <Img
-          src={`${process.env.NEXT_PUBLIC_SERVER_URL}${product.imagePath}`}
-        />
+        {/* <Img
+          width="100%"
+          alt={product.name}
+          src={`${url}${product.imagePath}`}
+        /> */}
+        <Row className="mt-3">
+          <Column className="align-centre">
+            <Text className="text-lg font-bold m-0 mr-4">{product.name}</Text>
+          </Column>
+          <Column align="right">
+            <Button
+              href={`${url}/products/download/${downloadVerifactionId}`}
+              className="bg-black text-white px-6 py-4 rounded text-lg"
+            >
+              Download
+            </Button>
+          </Column>
+        </Row>
       </Section>
     </>
   );
