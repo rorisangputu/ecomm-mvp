@@ -1,4 +1,5 @@
 import db from "@/db/db";
+import PurchaseReceiptEmail from "@/email/PurchaseReceipt";
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import Stripe from "stripe";
@@ -51,7 +52,13 @@ export async function POST(req: NextRequest) {
         from: `Support <${process.env.SENDER_EMAIL}>`,
         to: email,
         subject: "Order Confirmation",
-        react: <h1>Hi</h1>, // Replace with a proper template
+        react: (
+          <PurchaseReceiptEmail
+            product={product}
+            order={order}
+            downloadVerifactionId={downloadVerification.id}
+          />
+        ), // Replace with a proper template
       });
       console.log(`Email sent to ${email}`);
     } catch (error) {
