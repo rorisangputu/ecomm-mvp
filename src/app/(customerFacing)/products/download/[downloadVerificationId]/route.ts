@@ -34,5 +34,5 @@ export async function GET(
     },
   });
 
-  return new NextResponse("Hi");
+  
 }
